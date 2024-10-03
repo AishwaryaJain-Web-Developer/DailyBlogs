@@ -1,5 +1,8 @@
+import { Container, Typography } from '@mui/material';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import DOMPurify from 'dompurify';
+
 
 const BlogPost = () => {
   const { id } = useParams();
@@ -7,10 +10,13 @@ const BlogPost = () => {
   const blog = blogs[id];
 
   return (
-    <div>
-      <h1>{blog.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: blog.content }} />
-    </div>
+    <Container>
+    <Typography variant="h2" gutterBottom sx={{ color: '#333', fontWeight: 'bold' }}>
+      {blog.title}
+    </Typography>
+    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} style={{ margin: '20px 0' }} />
+  </Container>
+  
   );
 };
 export default BlogPost;
